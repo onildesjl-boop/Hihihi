@@ -1,0 +1,457 @@
+  <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para Você ❤️</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --rosa-pastel: #ffd1dc;
+      --rosa-claro: #ffe4ec;
+      --rosa-medio: #f8a5c2;
+      --vermelho-escuro: #8b0a2e;
+      --vermelho-vivo: #c2184b;
+      --branco: #ffffff;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      color: var(--vermelho-escuro);
+    }
+
+    body {
+      /* Fundo: gradiente suave e romântico */
+      background: linear-gradient(135deg, var(--rosa-claro) 0%, var(--rosa-pastel) 40%, var(--rosa-medio) 100%);
+      background-attachment: fixed;
+    }
+
+    #particulas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .particula {
+      position: absolute;
+      bottom: -10vh;
+      user-select: none;
+      animation: flutuar linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes flutuar {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+        opacity: 0;
+      }
+      10% { opacity: 0.7; }
+      50% { transform: translateY(-55vh) translateX(20px) rotate(20deg) scale(1.1); }
+      100% {
+        transform: translateY(-115vh) translateX(-20px) rotate(-15deg) scale(0.9);
+        opacity: 0;
+      }
+    }
+
+    .tela {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .tela.ativa {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .titulo {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3rem, 10vw, 6rem);
+      color: var(--vermelho-escuro);
+      text-shadow: 2px 2px 8px rgba(139, 10, 46, 0.2);
+      margin-bottom: 40px;
+      line-height: 1.2;
+    }
+
+    .btn {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 14px 42px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      box-shadow: 0 6px 18px rgba(139, 10, 46, 0.25);
+      margin: 10px;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 24px rgba(139, 10, 46, 0.35);
+    }
+
+    .btn-sim {
+      background: var(--vermelho-vivo);
+      color: var(--branco);
+    }
+
+    .btn-nao {
+      background: var(--branco);
+      color: var(--vermelho-vivo);
+      transition: top 0.4s ease, left 0.4s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .btn-nao.fugindo {
+      position: fixed;
+      z-index: 10;
+      margin: 0;
+    }
+
+    .botoes {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .grade-fotos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 36px;
+      max-width: 900px;
+    }
+
+    .polaroid {
+      background: var(--branco);
+      padding: 12px 12px 36px 12px;
+      box-shadow: 0 8px 20px rgba(139, 10, 46, 0.25);
+      border-radius: 4px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .polaroid img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      background: var(--rosa-claro);
+    }
+
+    .polaroid:nth-child(1) { transform: rotate(-4deg); }
+    .polaroid:nth-child(2) { transform: rotate(3deg); }
+    .polaroid:nth-child(3) { transform: rotate(-2deg); }
+    .polaroid:nth-child(4) { transform: rotate(5deg); }
+
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.08);
+      box-shadow: 0 14px 30px rgba(139, 10, 46, 0.35);
+      z-index: 2;
+    }
+
+    .cartao-mensagem {
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 24px;
+      padding: 40px 32px;
+      max-width: 620px;
+      width: 100%;
+      box-shadow: 0 10px 40px rgba(139, 10, 46, 0.2);
+      margin-bottom: 32px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .cartao-mensagem p {
+      font-size: 1.1rem;
+      font-weight: 300;
+      line-height: 1.9;
+      color: var(--vermelho-escuro);
+      white-space: pre-line;
+    }
+
+    .titulo-gigante {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3.2rem, 11vw, 7rem);
+      color: var(--vermelho-escuro);
+      text-shadow: 3px 3px 12px rgba(139, 10, 46, 0.3);
+      margin-bottom: 50px;
+      line-height: 1.25;
+      animation: pulsar 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulsar {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    .mensagem-final {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.5rem, 9vw, 5.5rem);
+      color: var(--vermelho-vivo);
+      text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.8);
+      opacity: 0;
+      transform: scale(0.5);
+      transition: opacity 1s ease, transform 1s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    .mensagem-final.visivel {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .coracao-chuva {
+      position: fixed;
+      top: -10vh;
+      z-index: 50;
+      pointer-events: none;
+      animation: cair linear forwards;
+    }
+
+    @keyframes cair {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(120vh) rotate(360deg);
+        opacity: 0.6;
+      }
+    }
+
+    /* ==========================================================
+       AVISO DE BRINCADEIRA (toast) — aparece se conseguir clicar
+       num botão negativo. É 100% humor!
+       ========================================================== */
+    .aviso-brincadeira {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-150%);
+      z-index: 100;
+      background: var(--vermelho-vivo);
+      color: var(--branco);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 16px 28px;
+      border-radius: 50px;
+      box-shadow: 0 8px 24px rgba(139, 10, 46, 0.4);
+      max-width: 90vw;
+      text-align: center;
+      transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    }
+
+    .aviso-brincadeira.visivel {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 600px) {
+      .polaroid img {
+        width: 130px;
+        height: 130px;
+      }
+
+      .grade-fotos {
+        gap: 12px;
+      }
+
+      .btn {
+        font-size: 1rem;
+        padding: 12px 32px;
+      }
+
+      .cartao-mensagem {
+        padding: 28px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="particulas"></div>
+
+  <!-- Aviso de brincadeira (aparece se clicar num botão negativo) -->
+  <div id="avisoBrincadeira" class="aviso-brincadeira">Erro: esses botões não podem ser apertados, sujeito a paulada 😤❤️</div>
+
+  <section id="tela1" class="tela ativa">
+    <h1 class="titulo">Me ama?</h1>
+    <div class="botoes">
+      <button id="btnSim" class="btn btn-sim">Sim ❤️</button>
+      <button id="btnNao" class="btn btn-nao">Não</button>
+    </div>
+  </section>
+
+  <section id="tela2" class="tela">
+    <h2 class="titulo">Nossas memórias</h2>
+    <div class="grade-fotos">
+      <div class="polaroid">
+        <img src="foto2.jpeg" alt="Nossa memória 1"> 
+      </div>
+      <div class="polaroid">
+        <img src="foto4.jpeg" alt="Nossa memória 2"> 
+      </div>
+      <div class="polaroid">
+        <img src="foto5.jpeg" alt="Nossa memória 3"> 
+      </div>
+      <div class="polaroid">
+        <img src="foto7.jpeg" alt="Nossa memória 4"> 
+      </div>
+    </div>
+    <button id="btnContinuar" class="btn btn-sim">Clique para continuar...</button>
+  </section>
+
+  <section id="tela3" class="tela">
+    <h2 class="titulo">Para você...</h2>
+    <div class="cartao-mensagem">
+      <p>Lara, meu amor. 
+
+Eu sou horrível com palavras, mas estou vindo através dessa mensagem tentar de alguma forma passar o meu amor por você. Acho que nunca, nem nos meus sonhos eu fui capaz de imaginar estar com uma pessoa incrível igual a você, todo o seu apoio durante esses anos me fizeram ser a pessoa que eu sou e me fizeram entender que essa coisa chamada vida não precisa ser complicada. Enfim, eu te amo e pretendo estar com você pelos próximos 50 dia dos namorados. \n Feliz dia dos namorados meu amor. </p>
+    </div>
+    <button id="btnProximo" class="btn btn-sim">Próximo</button>
+  </section>
+
+  <section id="tela4" class="tela">
+    <h2 class="titulo-gigante" id="tituloPedido">Quer passar o resto da vida comigo?</h2>
+    <div class="botoes" id="botoesPedido">
+      <button class="btn btn-sim btn-final">Sim ❤️</button>
+      <button class="btn btn-sim btn-final">Com certeza! 💍</button>
+      <button id="btnNemPensar" class="btn btn-nao">Nem pensar!</button>
+    </div>
+    <p class="mensagem-final" id="mensagemFinal">Eu te amo para sempre! ❤️</p>
+  </section>
+
+  <script>
+    function trocarTela(idAtual, idProxima) {
+      const atual = document.getElementById(idAtual);
+      const proxima = document.getElementById(idProxima);
+      atual.classList.remove('ativa');
+      setTimeout(() => proxima.classList.add('ativa'), 400);
+    }
+
+    const containerParticulas = document.getElementById('particulas');
+    const simbolos = ['❤️', '💕', '✨', '💖', '✨', '🌸'];
+
+    for (let i = 0; i < 22; i++) {
+      const p = document.createElement('span');
+      p.className = 'particula';
+      p.textContent = simbolos[Math.floor(Math.random() * simbolos.length)];
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.fontSize = (12 + Math.random() * 18) + 'px';
+      p.style.animationDuration = (8 + Math.random() * 12) + 's';
+      p.style.animationDelay = (Math.random() * 12) + 's';
+      containerParticulas.appendChild(p);
+    }
+
+    const btnNao = document.getElementById('btnNao');
+    const btnSim = document.getElementById('btnSim');
+
+    function fugir(botao) {
+      botao.classList.add('fugindo');
+
+      const margem = 20;
+      const maxX = window.innerWidth - botao.offsetWidth - margem;
+      const maxY = window.innerHeight - botao.offsetHeight - margem;
+
+      const novoX = margem + Math.random() * (maxX - margem);
+      const novoY = margem + Math.random() * (maxY - margem);
+
+      botao.style.left = novoX + 'px';
+      botao.style.top = novoY + 'px';
+    }
+
+    // Mostra o aviso de brincadeira por alguns segundos
+    const aviso = document.getElementById('avisoBrincadeira');
+    let avisoTimeout;
+    function mostrarAviso() {
+      aviso.classList.add('visivel');
+      clearTimeout(avisoTimeout);
+      avisoTimeout = setTimeout(() => aviso.classList.remove('visivel'), 3000);
+    }
+
+    function tornarFujao(botao) {
+      botao.addEventListener('mouseover', () => fugir(botao));
+      botao.addEventListener('touchstart', function (e) {
+        e.preventDefault();
+        fugir(botao);
+      }, { passive: false });
+      // Se de alguma forma conseguir clicar: foge E mostra o aviso brincalhão
+      botao.addEventListener('click', () => {
+        fugir(botao);
+        mostrarAviso();
+      });
+    }
+
+    tornarFujao(btnNao);
+    btnSim.addEventListener('click', () => {
+      btnNao.style.display = 'none';
+      trocarTela('tela1', 'tela2');
+    });
+
+    document.getElementById('btnContinuar').addEventListener('click', () => {
+      trocarTela('tela2', 'tela3');
+    });
+
+    document.getElementById('btnProximo').addEventListener('click', () => {
+      trocarTela('tela3', 'tela4');
+    });
+
+    tornarFujao(document.getElementById('btnNemPensar'));
+
+    function chuvaDeCoracoes() {
+      const coracoes = ['❤️', '💖', '💕', '💗', '💘', '💝'];
+      const intervalo = setInterval(() => {
+        for (let i = 0; i < 4; i++) {
+          const c = document.createElement('span');
+          c.className = 'coracao-chuva';
+          c.textContent = coracoes[Math.floor(Math.random() * coracoes.length)];
+          c.style.left = Math.random() * 100 + 'vw';
+          c.style.fontSize = (18 + Math.random() * 30) + 'px';
+          c.style.animationDuration = (3 + Math.random() * 4) + 's';
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 7500);
+        }
+      }, 250);
+
+      setTimeout(() => clearInterval(intervalo), 8000);
+    }
+
+    document.querySelectorAll('.btn-final').forEach(botao => {
+      botao.addEventListener('click', () => {
+        document.getElementById('botoesPedido').style.display = 'none';
+        document.getElementById('tituloPedido').style.display = 'none';
+        document.getElementById('mensagemFinal').classList.add('visivel');
+        chuvaDeCoracoes();
+      });
+    });
+  </script>
+</body>
+</html>
